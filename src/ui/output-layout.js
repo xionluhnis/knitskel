@@ -1036,7 +1036,7 @@ const instrImages = [
   'BR', 'BR', 'BL', 'BL', 'XRp', 'XRm', 'XLp', 'XLm', 'S'
 ].map(str => {
   let img = new Image();
-  img.src = '/assets/instructions/' + str + '.png';
+  img.src = 'assets/instructions/' + str + '.png';
   return img;
 });
 
