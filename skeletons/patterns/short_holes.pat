@@ -1,0 +1,1 @@
+{"type":-1,"data":"pat.select(1:end-1, 1:end-1).tiledo([\n  'kk',\n  'rk',\n  'kk',\n  'kl'\n].reverse())","name":"Lace"}

@@ -1,6 +1,7 @@
 # Knitting Skeleton
 
 This is the open source implementation of the paper
+
 **Knitting Skeletons: Computer-Aided Design Tool for Shaping and Patterning of Knitted Garments**.
 
 The project page is there:
@@ -69,7 +70,7 @@ If you make use of this software, we would be grateful if you can cite us:
   author = {Kaspar, Alexandre and Makatura, Liane and Matusik, Wojciech},
   journal = {Proceedings of the ACM Symposium on User Interface Software and Technology (UIST)},
   year = {2019},
-  address = {New Orleans, Louisiana, USA}
+  address = {New Orleans, Louisiana, USA},
   month = {20--23 Oct},
   isbn = {978-1-4503-6816-2/19/10}
 }

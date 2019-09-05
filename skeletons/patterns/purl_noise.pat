@@ -1,0 +1,1 @@
+{"type":-1,"data":"pat.filter(n => noise.simplex2(n.waleId / 5, n.courseId / 10) < 0 && n.waleId > 1 && n.waleId < n.waleEnd - 1).purl()","name":"Noisy Purls"}

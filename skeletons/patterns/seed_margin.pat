@@ -1,0 +1,1 @@
+{"type":-1,"data":"pat.select(2:7, 0:end).tiledo(['kp', 'pk'])\npat.select(1:end-1, 0:7).tiledo(['kp', 'pk'])\npat.select([-8, -2], 0:end).tiledo(['kp', 'pk'])\npat.select(1:end-1, [-8, -1]).tiledo(['kp', 'pk'])","name":"Margin"}

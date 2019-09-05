@@ -1,0 +1,1 @@
+{"type":-1,"data":"pat.select(0.1:0.9, 0.1:0.9).inverse().tile([\n  [0, 1], [1, 0]\n]).purl()\npat.courses(0).knit()\npat.select(0.1:0.9, 0.1:0.9).tiledo([\n  'kl',\n  'kk',\n  'rk',\n  'kk'\n]);","name":"holy_margin"}

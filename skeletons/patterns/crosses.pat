@@ -1,0 +1,1 @@
+{"type":-1,"data":"pat.wales(1:end).tiledo([\n  'kkkkkkkk',\n  'kkkppkkk',\n  'kkkppkkk',\n  'kppppppk',\n  'kppppppk',\n  'kkkppkkk',\n  'kkkppkkk',\n  'kkkkkkkk'\n])\n","name":"Crosses"}

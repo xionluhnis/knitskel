@@ -1,0 +1,1 @@
+{"type":-1,"data":"pat.select(0.1:0.9, 0.1:0.9).inverse().tile([\n  [0, 1], [1, 0]\n]).purl()","name":"Margin"}

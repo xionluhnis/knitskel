@@ -28,6 +28,7 @@ node_modules
 images
 tmp
 js/*
+!.gitkeep
 package-lock.json
 
 
