@@ -1,0 +1,40 @@
+{
+  "name": "KnitSkel",
+  "version": "1.0.0",
+  "description": "Knitting skeleton interface",
+  "main": "src/ui.js",
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {
+    "browserify": "^16.5.0",
+    "canvas2svg": "github:gliffy/canvas2svg",
+    "concretejs": "^3.0.5",
+    "d3": "^5.11.0",
+    "force-graph": "^1.18.2",
+    "jszip": "^3.2.2",
+    "moment": "^2.24.0",
+    "png-js": "^0.1.1",
+    "simplenoise": "^1.0.1",
+    "tinyify": "^2.5.1",
+    "watchify": "^3.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "./node_modules/browserify/bin/cmd.js src/ui.js -p tinyify --no-flat > js/skeleton.js",
+    "watch": "./node_modules/watchify/bin/cmd.js src/ui.js --debug -o js/skeleton.js -v",
+    "test": "node ./tests/test_pipeline.js assembly 2>/dev/null && node ./tests/test_pipeline.js layout 2>/dev/null && node ./tests/test_pipeline.js dat 2>/dev/null && node ./tests/test_connectivity.js 2>/dev/null && echo '\\nAll tests passed!' || echo 'Some test failed'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xionluhnis/knitskel.git"
+  },
+  "keywords": [
+    "knitting"
+  ],
+  "author": "Alexandre Kaspar",
+  "bugs": {
+    "url": "https://github.com/xionluhnis/knitskel/issues"
+  },
+  "homepage": "http://knitskel.csail.mit.edu"
+}

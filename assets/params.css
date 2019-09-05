@@ -1,0 +1,103 @@
+/** Params Editor */
+#params-editor {
+  width: 300px;
+}
+#params fieldset {
+  background: rgba(255, 255, 255, 0.9);
+  page-break-inside: avoid;
+}
+#params legend {
+  text-transform: capitalize;
+}
+#params label {
+  min-width: 75px;
+  padding-right: 10px;
+  font-weight: bold;
+  display: inline-block;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+#params hr {
+  border-top: 1px solid #eee;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+#params input,
+#params select {
+  font-size: 1em;
+  padding: 0 5px;
+  width: 140px;
+  margin-bottom: 5px;
+  color: #333;
+  display: inline-block;
+}
+#params input[type=checkbox] {
+  min-width: 0;
+  width: auto;
+  margin: 10px 0;
+}
+#params input[disabled] {
+  border: none;
+}
+#params input[type=range] {
+  cursor: ew-resize;
+}
+#params input[type=button] {
+  border: none;
+  max-width: 100px;
+}
+input.shader,
+input.function,
+input.layout,
+input.pattern {
+  background: #d5edff url(gears.png) right 0 no-repeat;
+  background-size: contain;
+  border: none; /*1px solid silver;*/
+  text-align: left;
+  cursor: pointer;
+}
+/* Expr and Rotation */
+.hidden {
+  display: none !important;
+}
+#params a.param, #interfaces a.rotation {
+  cursor: pointer;
+  opacity: 0.7;
+}
+#params a.param:hover, #interfaces a.rotation:hover {
+  opacity: 1.0;
+}
+#params a.param:before, 
+#interfaces a.rotation:before {
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+}
+#params a.param.value:before {
+  background: url(expr.png) no-repeat;
+  background-size: contain;
+  margin-left: 10px;
+}
+#params a.param.expr:before {
+  background: url(value.png) no-repeat;
+  background-size: contain;
+  margin-left: 10px;
+}
+#interfaces a.rotation:before {
+  background: url(rotation.png) no-repeat;
+  background-size: contain;
+}
+#interfaces a.rotation.connected {
+  margin-left: 15px;
+}
+#interfaces .rotation-label {
+  color: gray;
+}
+#params input.error {
+  border: 1px dotted red;
+  border-right: 3px solid red;
+}

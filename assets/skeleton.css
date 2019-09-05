@@ -1,0 +1,234 @@
+/** Skeleton Editor */
+#skeleton-editor {
+  width: 300px;
+}
+/**
+ * Graph legend
+ */
+.legend {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 auto;
+  justify-content: center;
+}
+.legend > span {
+  margin: 5px 10px;
+}
+.legend > span:before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 32px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.legend > .sheet:before {
+  background: #0A0;
+}
+.legend > .tube:before {
+  background: #09F;
+}
+.legend > .anchor:before,
+.legend > .joint:before {
+  background: #FA0;
+}
+.legend > .split:before {
+  background: #F0F;
+}
+.legend > .interface:before {
+  background: gray;
+  height: 2px;
+  border-radius: 0;
+}
+.legend > .param:before {
+  background: rgba(255, 0, 0, 0.5);
+  width: 8px;
+  height: 8px;
+}
+
+/**
+ * Skeleton list
+ */
+#skeleton-graph {
+  height: 200px;
+  width: 280px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 auto 15px;
+}
+#skeleton {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#skeleton li {
+  list-style: none;
+  display: inline-block;
+  margin: 5px;
+  border: 1px dotted #eee;
+  border-right: 3px solid white;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.7);
+}
+#skeleton li:hover {
+  background: rgba(200, 200, 255, 0.7);
+}
+#skeleton li .name {
+}
+#skeleton .interfaces li {
+  cursor: pointer;
+  background: #dedede;
+}
+#skeleton li.joint,
+#skeleton .joint .interfaces li {
+  border-left: 2px solid #0A0;
+}
+#skeleton li.sheet,
+#skeleton .sheet .interfaces li {
+  border-left: 2px solid #09F;
+}
+#skeleton li.open,
+#skeleton li.closed {
+  border-radius: 50px;
+}
+#skeleton li.split,
+#skeleton .split .interfaces li {
+  border-left: 2px solid #F0F;
+}
+#skeleton li.anchor,
+#skeleton .anchor .interfaces li {
+  border-left: 2px solid #FA0;
+}
+#skeleton li.anchor:before {
+  background: url(anchor.png) center center no-repeat;
+  background-size: contain;
+}
+#skeleton li.pocket:before {
+  background: url(pocket.png) center center no-repeat;
+  background-size: contain;
+}
+#skeleton li.spacer:before {
+  background: url(spacer.png) center center no-repeat;
+  background-size: contain;
+}
+#skeleton li.param {
+  border-left: 2px solid red;
+}
+#skeleton li.param input {
+  margin: 0 10px;
+}
+#skeleton .graph-current {
+  background: rgba(220, 255, 128, 0.5) !important;
+}
+/*
+#skeleton li.graph-current > .name {
+  background: rgba(220, 255, 128, 0.5);
+}
+  */
+#skeleton .name {
+  cursor: pointer;
+}
+#skeleton .name:hover {
+  background: gray;
+  color: white;
+}
+#skeleton .create,
+#skeleton .delete,
+#skeleton .asroot,
+#skeleton .moveup,
+#skeleton .movedown {
+  float: right;
+  text-align: center;
+  min-width: 20px;
+  cursor: pointer;
+}
+#skeleton .create {
+  color: #093;
+}
+#skeleton .create:hover {
+  background: #093;
+  color: white;
+  text-decoration: none;
+}
+#skeleton .delete {
+  color: #F66;
+}
+#skeleton .delete:hover {
+  background: #F66;
+  color: white;
+}
+#skeleton .asroot,
+#skeleton .moveup,
+#skeleton.movedown {
+  color: #039;
+} 
+#skeleton .asroot:hover,
+#skeleton .moveup:hover,
+#skeleton .movedown:hover {
+  background: #039;
+  color: white;
+}
+#skeleton ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 5px;
+}
+/** Interface anchors */
+.interfaces li.from-anchor {
+  border-left: 2px solid #FA0 !important;
+}
+.from-anchor .anchor {
+  float: left;
+  margin-right: 5px;
+  padding-right: 5px;
+  border-right: 1px solid gray;
+  color: #FA0;
+}
+.from-anchor .anchor:hover {
+  background-color: #FA0;
+  color: white;
+}
+.from-anchor .anchor-remove {
+  float: right;
+  margin-left: 5px;
+  padding-left: 5px;
+  border-left: 1px solid gray;
+  color: #F66;
+}
+.from-anchor .anchor-remove:hover {
+  background: #F66;
+  color: white;
+}
+
+
+
+/** Interface binding */
+#skeleton.inter .interfaces li:hover {
+  background: rgba(70, 150, 255, 0.3);
+  color: white;
+  cursor: alias;
+}
+#skeleton.inter .interfaces li.inter-current {
+  background: rgba(70, 150, 255, 0.7);
+  color: white;
+}
+#skeleton.inter .interfaces li.inter-current:hover {
+  background: rgba(255, 150, 70, 0.7);
+  color: white;
+  cursor: no-drop;
+}
+
+
+/** Filter+Create bar */
+#filter {
+  min-width: 150px;
+  padding: 0 5px;
+  margin: 0 5px;
+  font-size: 1em;
+}
+#create_category,
+#create_category option {
+  font-size: 1em;
+  padding: 0 5px;
+  text-transform: capitalize;
+}

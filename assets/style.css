@@ -1,0 +1,69 @@
+/** Main style */
+
+@import url('base.css');
+@import url('panel.css');
+@import url('editor.css');
+@import url('skeleton.css');
+@import url('params.css');
+@import url('output.css');
+@import url('function.css');
+@import url('layout.css');
+@import url('pattern.css');
+@import url('contextmenu.css');
+@import url('history.css');
+
+/* Float layout */
+#editor textarea {
+  width: 100%;
+  resize: vertical;
+  tab-size: 2;
+  -moz-tab-size: 2;
+  padding: 10px;
+  font-family: monospace;
+}
+
+/* general css */
+
+#shaper_output {
+  width: 600px;
+  height: 200px;
+}
+
+/* options */
+.options {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px groove threedface;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.options label {
+  cursor: pointer;
+  padding: 0 5px;
+  min-width: 50px;
+}
+.options hr {
+  width: 100%;
+  border: 1px solid silver;
+}
+.options select {
+  min-width: 50px;
+  margin-bottom: 5px;
+}
+.options select, .options option {
+  font-size: 1em;
+}
+.options input[type=number] {
+  max-width: 50px;
+  padding-left: 5px;
+}
+.options a {
+  margin-left: 10px;
+  padding: 0 10px;
+}
+
+
+
+

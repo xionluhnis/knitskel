@@ -1,0 +1,460 @@
+<?doctype html>
+<html>
+  <head>
+    <title>Procedural Knitting Editor</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="libs/codemirror/lib/codemirror.css" />
+    <!-- scripts -->
+    <script type="text/javascript" src="js/skeleton.js"></script>
+    <script type="text/javascript" src="libs/codemirror/lib/codemirror.js"></script>
+    <script type="text/javascript" src="libs/codemirror/mode/javascript/javascript.js"></script>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div id="editor">
+      <div class="files">
+        <div class="button load-action" id="load_action">
+          Load
+          <div class="load-menu">
+            <a class="file" id="load">from file</a>
+            <select class="button" id="use"><option value="">from server</option></select>
+          </div>
+        </div>
+        <a class="button" id="save">Save</a>
+        <a class="button" id="output_save">DAT</a>
+        <a class="button" id="refresh" class="reload" title="Refresh data"></a>
+        <input type="file" id="file" accept=".skel">
+      </div>
+      <div id="nodes">
+
+      </div>
+      <!--
+      -->
+      <div id="sidebar" class="sidebar">
+        <div class="tab" data-panel="skeleton-editor">Skeleton</div>
+        <div class="tab" data-panel="pattern-editor">Patterns</div>
+        <div class="tab" data-panel="custom-editor">Custom Nodes</div>
+        <div class="tab" data-panel="history-editor">History</div>
+      </div>
+    </div>
+    <div id="output" class="layout">
+      <!-- Toolbar -->
+      <div id="toolbar" class="toolbar">
+        <select id="output_type" tabindex="1">
+          <option value="layout">Layout</option>
+          <option value="mesh">Mesh</option>
+          <option value="dat">DAT</option>
+        </select>
+        <i class="separator"></i>
+        <select id="sideMode" class="for-layout for-mesh" tabindex="2">
+          <option value="front-back">Front + Back</option>
+          <option value="back-front">Back + Front</option>
+          <option value="front">Front Only</option>
+          <option value="back">Back Only</option>
+        </select>
+        <span class="for-layout front-back shape">
+          <input type="checkbox" tabindex="3" data-text="Compact Time" id="compact">
+          <select id="edit_mode" tabindex="4" onchange="this.parentNode.classList.remove('shape', 'pattern'); this.parentNode.classList.add(this.value); return false">
+            <option value="shape">Shape</option>
+            <option value="pattern">Pattern</option>
+          </select>
+          <input type="radio" tabindex="5" name="action" id="shape-select" title="Select nodes and interfaces" checked>
+          <span class="for-shape">
+            <span class="group" data-legend="Sizing">
+              <input type="radio" tabindex="4" name="action" id="shape-length"  title="Set length">
+              <input type="radio" tabindex="4" name="action" id="shape-width"   title="Set constant width">
+              <input type="radio" name="action" id="shape-width2"  title="Set interpolated widths (top or bottom)">
+              <input type="radio" name="action" id="shape-width3"  title="Set middle interpolated width">
+            </span>
+            <span class="group" data-legend="Layout">
+              <input type="radio" name="action" id="shape-layout-auto"   title="Automatic layout">
+              <input type="radio" name="action" id="shape-layout-manual" title="Manual layout">
+              <input type="radio" name="action" id="shape-align-left"    title="Left alignment">
+              <input type="radio" name="action" id="shape-align-center"  title="Center/uniform alignment">
+              <input type="radio" name="action" id="shape-align-right"   title="Right alignment">
+            </span>
+            <span class="group" data-legend="Seams">
+              <input type="radio" name="action" id="shape-seam-center" title="Set the shape seams to centered">
+              <input type="radio" name="action" id="shape-seam-sides"  title="Set the shape seams to the sides">
+              <input type="radio" name="action" id="shape-draw-seams"  title="Draw the shape seams manually" style="display: none">
+            </span>
+          </span>
+          <span class="for-pattern">
+            <input type="radio" tabindex="6" name="action" id="draw-pattern" title="Draw patterns">
+            <span class="group" data-legend="Tools / Instructions" id="pattern-instr">
+              <span class="instr top">
+                <label for="instr-active">Knit</label>
+                <input type="radio" name="instr-active" id="instr-active" checked>
+              </span>
+              <div class="bottom">
+                <hr data-text="Tools">
+                <span class="instr" title="Displace pattern">
+                  <label for="instr-move">Move</label>
+                  <input type="radio" name="instr" id="instr-move">
+                </span>
+                <span class="instr" title="Stretch pattern region">
+                  <label for="instr-resize">Stretch</label>
+                  <input type="radio" name="instr" id="instr-resize">
+                </span>
+                <span class="instr" title="Remove pattern locally">
+                  <label for="instr-0">Clear</label>
+                  <input type="radio" name="instr" id="instr-0">
+                </span>
+                <hr data-text="Basic">
+                <span class="instr active" title="Knit stitch">
+                  <label for="instr-1">Knit</label>
+                  <input type="radio" tabindex="5" name="instr" id="instr-1" checked>
+                </span>
+                <span class="instr" title="Reversed stitch">
+                  <label for="instr-2">Purl</label>
+                  <input type="radio" name="instr" id="instr-2">
+                </span>
+                <span class="instr" title="Tuck (stacks loop)">
+                  <label for="instr-3">Tuck</label>
+                  <input type="radio" name="instr" id="instr-3">
+                </span>
+                <span class="instr" title="Miss (float, no knit/tuck)">
+                  <label for="instr-4">Miss</label>
+                  <input type="radio" name="instr" id="instr-4">
+                </span>
+                <hr data-text="Moves">
+                <span class="instr" title="Move to the right by one">
+                  <label for="instr-5">Front Right</label>
+                  <input type="radio" name="instr" id="instr-5"  data-text="1">
+                </span>
+                <!--
+                <span class="instr">
+                  <label for="instr-6">Front</label>
+                  <input type="radio" name="instr" id="instr-6"  data-text="2">
+                </span> -->
+                <span class="instr" title="Move to the left by one">
+                  <label for="instr-7">Front Left</label>
+                  <input type="radio" name="instr" id="instr-7"  data-text="1">
+                </span>
+                <!--
+                <span class="instr">
+                  <label for="instr-8">Miss</label>
+                  <input type="radio" name="instr" id="instr-8"  data-text="2">
+                </span> -->
+                <span class="instr" title="Reverse stitch, then move to the right by one">
+                  <label for="instr-9">Back Right</label>
+                  <input type="radio" name="instr" id="instr-9"  data-text="1">
+                </span>
+                <!--
+                <span class="instr">
+                  <label for="instr-6">Miss</label>
+                  <input type="radio" name="instr" id="instr-10" data-text="2">
+                </span> -->
+                <span class="instr" title="Reverse stitch, then move to the left by one">
+                  <label for="instr-11">Back Left</label>
+                  <input type="radio" name="instr" id="instr-11" data-text="1">
+                </span>
+                <!-- <input type="radio" name="instr" id="instr-12" data-text="2"> -->
+                <span class="instr" title="Reorder stitch stack (with moves)">
+                  <label for="instr-17">Stack</label>
+                  <input type="radio" name="instr" id="instr-17">
+                </span>
+                <hr data-text="Crossings">
+                <span class="instr" title="Cross to the right, above (pair with cross left)">
+                  <label for="instr-13">Right Above</label>
+                  <input type="radio" name="instr" id="instr-13">
+                </span>
+                <span class="instr" title="Cross to the right, below (pair with cross left)">
+                  <label for="instr-14">Right Below</label>
+                  <input type="radio" name="instr" id="instr-14">
+                </span>
+                <span class="instr" title="Cross to the left, above (pair with cross right)">
+                  <label for="instr-15">Left Above</label>
+                  <input type="radio" name="instr" id="instr-15">
+                </span>
+                <span class="instr" title="Cross to the left, below (pair with cross right)">
+                  <label for="instr-16">Left Below</label>
+                  <input type="radio" name="instr" id="instr-16">
+                </span>
+              </div> <! -- end .bottom -->
+            </span> <!-- end #pattern-instr -->
+            <span class="group" data-legend="Layers" id="layer-group">
+              <span id="active-layer">Select node</span>
+              <select id="layer-type" disabled>
+                <option value="-1">Program</option>
+                <option value="0">Drawing</option>
+                <option value="1">Scaling</option>
+                <option value="2">Tiling</option>
+              </select>
+              <div class="bottom">
+                <ul id="pattern-layers">
+                </ul>
+                <div class="right">
+                  <a class="button" id="layer-add" title="Add new layer">+</a>
+                  <a class="button" id="layer-remove" title="Delete layer">-</a>
+                  <a class="button" id="layer-up" title="Move layer earlier">^</a>
+                  <a class="button" id="layer-down" title="Move layer later">v</a>
+                  <a class="button" id="layer-save" title="Load layer pattern">Save</a>
+
+                  <div class="button load-action" id="load_layer">
+                    Load
+                    <div class="load-menu">
+                      <a class="file button" id="layer-load" title="Load pattern as new layer">from file</a>
+                      <select class="button" id="layer-use"><option value="">from server</option></select>
+                    </div>
+                  </div>
+                  <!-- <a class="button" id="layer-load" title="Load pattern as new layer">Load</a> -->
+                  <a class="button" id="layer-copy" title="Duplicate layer">Copy</a>
+                  <a class="button" id="layer-side" title="Switch sides">Fr/Bk</a>
+                  <input type="file" id="layer-file" accept=".pat, .png, .jpg">
+                </div>
+              </div>
+            </span> <!-- end #layer-group -->
+          </span> <!-- end .for-pattern -->
+        </span> <!-- end .for-layout -->
+        <span class="for-dat">
+          <select id="cast_on_type" title="Cast On Method">
+            <option value="interlock">Interlock (faster)</option>
+            <!-- <option value="kickback">Kickback (better)</option> -->
+            <option value="tuck">Tuck (unravels)</option>
+            <option value="none">None (unravels)</option>
+          </select>
+          <select id="cast_off_type" title="Cast Off Method">
+            <option value="direct">Direct (simpler)</option>
+            <option value="reverse">Reverse (better)</option>
+            <option value="pickup">Pickup (looser)</option>
+            <option value="none">None (unravels)</option>
+          </select>
+          <input id="waste_fabric" type="checkbox" data-text="Waste Fabric" style="display: none;" />
+          <input id="use_dscs" type="checkbox" data-text="Use DSCS" title="Digital Stitch Control System">
+          <input id="dat_margin" type="checkbox" data-text="DAT Margin" checked>
+        </span>
+        <div id="settings">
+          <i class="icon"></i>
+          <ul>
+            <li>
+              <label for="opt_level">Opt. level</label>
+              <select id="opt_level">
+                <option value="group">Group</option>
+                <option value="bed">Bed</option>
+                <option value="none">None</option>
+                <option value="debug">Debug</option>
+              </select>
+            </li>
+            <li>
+              <label for="verbose">Verbose</label>
+              <input type="checkbox" id="verbose"></input>
+            </li>
+            <li>
+              <label for="keepDuplicates">Duplicates</label>
+              <input type="checkbox" id="keepDuplicates"></input>
+            </li>
+            <li>
+              <label for="showBG">Background</label>
+              <input type="checkbox" id="showBG" checked></input>
+            </li>
+            <li>
+              <label for="showBeds">Show beds</label>
+              <input type="checkbox" id="showBeds" checked></input>
+            </li>
+            <li>
+              <label for="showFlow">Show flow</label>
+              <input type="checkbox" id="showFlow" checked></input>
+            </li>
+            <li>
+              <label for="showLabels">Show labels</label>
+              <input type="checkbox" id="showLabels" checked></input>
+            </li>
+            <li>
+              <label for="showNodes">Show nodes</label>
+              <input type="checkbox" id="showNodes" checked></input>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Output layers -->
+      <div id="output-layout"></div>
+      <div id="output-dat"></div>
+      <div id="output-mesh"></div>
+    </div>
+
+    <!-- Skeleton panel -->
+    <div id="skeleton-editor" class="panel closed">
+      <h2>Skeleton Editor</h2>
+      <div class="legend">
+        <span class="sheet">Sheet</span>
+        <span class="tube">Tube</span>
+        <span class="joint">Joint</span>
+        <!-- <span class="anchor">Anchor</span> -->
+        <span class="split">Split</span>
+        <span class="param">Param</span>
+        <span class="interface">Interface</span>
+      </div>
+      <div id="skeleton-graph"></div>
+      <div class="options">
+        <label for="output_start">Root</label>
+        <select id="output_start"></select>
+        <hr />
+        <label for="create_category">Node</label>
+        <select id="create_category">
+          <option>Sheet</option>
+          <option>Joint</option>
+          <option>Split</option>
+        </select>
+        <a class="button" id="create">Create</a>
+        <hr />
+        <label for="filter">Filter</label>
+        <input type="text" placeholder="Filter query" id="filter" value="" />
+      </div>
+      <ul id="skeleton">
+        <li class="node"><span class="name">root</span> <span class="create">+</span> <span class="delete">-</span></li>
+        <li class="edge">branch</li>
+        <li class="node">end</li>
+      </ul>
+    </div>
+
+    <!-- Parameter panel -->
+    <div id="params-editor" class="panel closed">
+      <h2 class="selection">Parameters of <span id="sname">?</span></h2>
+      <form id="params"></form>
+    </div>
+
+    <!-- Layout(param) panel -->
+    <div id="layout-editor" class="panel closed">
+      <h2>Layout Editor</h2>
+      <div class="options">
+        <label for="layout-auto">Automatic</label>
+        <input  id="layout-auto" checked type="checkbox">
+      </div>
+      <ul id="layout_list" class="auto">
+        <li>
+          <input type="number" min="0" max="1" step="0.01" value="0">
+        </li>
+      </ul>
+      <canvas></canvas>
+    </div>
+
+    <!-- History panel -->
+    <div id="history-editor" class="panel closed">
+      <h2>History</h2>
+      <div class="options">
+        <label for="history-type">Type</label>
+        <select id="history-type">
+          <option value="none">No history</option>
+          <option value="by-action">Every action</option>
+          <option value="by-time">Every 5s</option>
+        </select>
+      </div>
+      <ul id="history">
+        <li>
+          <span class="time">Right now</span>
+          <span class="summary">Initial</span>
+        </li>
+      </ul>
+      <a class="button" id="save_history">Export history</a>
+      <a class="button" id="load_history">Load history</a>
+      <input type="file" id="file_history" accept=".json">
+    </div>
+
+    <!-- Function(param) panel -->
+    <div id="function-editor" class="panel closed">
+      <h2>Function editor for <span id="fname">?</span></h2>
+      <div class="options">
+        
+        <label for="function-index">Index</label>
+        <select id="function-index" value="0">
+          <option value="0">0</option>
+          <option value="1">1</option>
+        </select>
+
+        <label for="function-value">Value</label>
+        <input id="function-value" type="number" min="0" step="0.01" value="5">
+
+        <label for="function-index-change" class="change">Move Index</label>
+        <input id="function-index-change"  class="change" type="number" min="0" step="0.01" max="1" value="0.5" />
+
+        <a id="function-create" class="create">+</a>
+        <a id="function-delete" class="delete">-</a>
+      </div>
+      <div id="function"></div>
+    </div>
+
+    <!-- Shaper(param) panel -->
+    <div id="shaper-editor" class="panel closed">
+      <h2>Shaper Editor</h2>
+      <div class="options">
+        <select id="shaper_name">
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+        <label for="shaper_manual">Manual</label>
+        <input id="shaper_manual" type="checkbox">
+        <label for="M">M</label>
+        <input id="M" type="number" min="1"  max="10"  value="10" step="1">
+        <label for="N">N</label>
+        <input id="N" type="number" min="10" max="100" value="15" step="1">
+      </div>
+      <br />
+      <textarea id="user_shaper" class="texteditor" placeholder="Write your shaper code here"
+                rows="10">
+// no-shaper:
+i -&gt; i</textarea>
+      <div class="info" id="shaper_info"></div>
+      <canvas id="shaper_output"></canvas>
+    </div>
+
+    <!-- Pattern(param) panel -->
+    <div id="pattern-editor" class="panel closed">
+      <h2>Pattern Editor</h2>
+      <div class="options">
+        <label for="pattern_target">Target</label>
+        <select id="pattern_target">
+          <option value="-1">Initial Pattern</option>
+          <option value="0">Sheet # 1</option>
+          <option value="-2">Final Pattern</option>
+        </select>
+        <label for="pattern_list">Example</label>
+        <select id="pattern_list">
+          <option>Empty</option>
+          <option>Rib 1x1</option>
+          <option>Rib 2x2</option>
+          <option>Mesh 1x1</option>
+          <option>
+        </select>
+        <a class="button" id="load_pattern">Load</a>
+        <a class="button" id="save_pattern">Save</a>
+        <input type="file" id="file_pattern" accept=".pat">
+      </div>
+      <textarea id="pattern" class="texteditor" placeholder="Write your patterning code here"
+                rows="20">// knitting code</textarea>
+      <div class="info" id="pattern_info"></div>
+
+      <h2>Documentation</h2>
+      <p>
+      You can use the following methods:
+      </p>
+      <ul id="pattern_docu">
+
+      </ul>
+    </div>
+
+    <!-- Custom(code) panel -->
+    <div id="custom-editor" class="panel closed">
+      <h2>Custom Node Editor</h2>
+      <div class="options">
+        <label for="custom_target">Target</label>
+        <select id="custom_target">
+        </select>
+        <a class="button" id="load_custom">Load</a>
+        <a class="button" id="save_custom">Save</a>
+        <input type="file" id="file_custom" accept=".kcrs">
+      </div>
+      <textarea id="custom" class="texteditor" placeholder="Write your custom code here"
+                rows="20">// knitting code</textarea>
+      <div class="info" id="custom_info"></div>
+
+      <h2>Documentation</h2>
+      <p>
+      You can use the following methods:
+      </p>
+      <ul id="custom_docu">
+      </ul>
+    </div>
+  </body>
+</html>

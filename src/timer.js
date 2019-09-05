@@ -1,0 +1,72 @@
+// Alexandre Kaspar <akaspar@mit.edu>
+"use strict";
+
+/**
+ * Create a basic timer with string prefix
+ *
+ * @param prefix the timer's name prefix
+ */
+function Timer(prefix){
+  this.prefix = prefix;
+  this.initial = +new Date();
+  this.entries = [];
+}
+/**
+ * Restart the timer without removing previous entries.
+ * This is useful if you need to measure from a new base time.
+ */
+Timer.prototype.restart = function(){
+  this.initial = +new Date();
+  return this;
+};
+/**
+ * Take a time measure and restart the timer.
+ * This allows taking multiple measures relative to each other consecutively.
+ *
+ * @param name the measure name
+ * @see Timer::tick
+ * @see Timer::restart
+ */
+Timer.prototype.measure = function(name){
+  return this.tick(name).restart();
+};
+/**
+ * Take a time measure without restarting the timer.
+ * This allows taking multiple measures relative to the same initial time.
+ *
+ * @param name the measure name
+ * @see Timer::tick
+ */
+Timer.prototype.tick = function(name){
+  if(this.prefix)
+    this.entries.push({ name: this.prefix + '.' + name, time: new Date() - this.initial });
+  else
+    this.entries.push({ name, time: new Date() - this.initial });
+  return this;
+};
+/**
+ * Return a description of the times
+ *
+ * @param del1 the delimiter between name and time (: )
+ * @param del2 the delimiter between different entries (, )
+ * @return the entries summary
+ */
+Timer.prototype.toString = function(del1, del2){
+  if(del1 === undefined)
+    del1 = ': ';
+  if(del2 === undefined)
+    del2 = ', ';
+  return this.entries.map(({ name, time }) => {
+    return name + del1 + time;
+  }).join(del2);
+};
+/**
+ * Factory
+ *
+ * @param prefix
+ */
+Timer.create = function(prefix){
+  return new Timer(prefix);
+};
+
+module.exports = Timer;
