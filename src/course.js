@@ -399,8 +399,9 @@ Course.prototype.gauged = function(gauge){
   // else, we must rescale all stitch locations and shift the back by 1
   const stitchMap = {};
   for(let i = 0; i < this.stitches.length; ++i){
-    const { index, side } = this.stitchMap[this.stitch.id];
-    stitchMap[this.stitch.id] = {
+    const stitch = this.stitches[i];
+    const { index, side } = this.stitchMap[stitch.id];
+    stitchMap[stitch.id] = {
       index: index * gauge + (side ? 1 : 0), side
     };
   }
