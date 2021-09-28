@@ -54,13 +54,6 @@ However, the system could likely work with more generally v-bed machines (provid
 A more general strategy would be to output [Knitout](https://github.com/textiles-lab/knitout/) code and use an available backend for your machine.
 This is not done yet but should be reasonably easy to implement since our system outputs code for whole beds / courses at once, which is quite more regular than general Knitout code.
 
-## Licensing
-
-So far, most of the source code is the creation of [Alexandre Kaspar](http://w-x.ch).
-Feel free to contact me if you have commercial interests.
-
-As-is, you are free to use it for research purposes (or your own private purposes), but not commercially.
-
 ## References
 
 If you make use of this software, we would be grateful if you can cite us:
